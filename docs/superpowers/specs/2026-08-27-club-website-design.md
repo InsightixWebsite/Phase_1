@@ -40,19 +40,19 @@ Two kinds of content: **singleton** tables (one row, free-text page content) and
 - `site_settings` — logo/tagline, contact email, social links, WhatsApp/phone numbers, college address
 - `about_content` — vision, mission, history, objectives, faculty/head message
 - `home_content` — intro text, banner video/image
+- `sponsorship_content` — brochure PDF (Cloudinary), general sponsorship page copy
+- `club_stats` — named columns (`members_count`, `events_conducted`, `participation_count`, etc.) rather than generic key/value rows — the stat set is fixed and known up front, so named columns are simpler to query and edit than a generic key/value schema
 
 ### Repeating-item tables
 - `team_members` — name, role, photo (Cloudinary URL), LinkedIn URL, category (`core` / `faculty` / `senior` / `junior`), display order
 - `events` — title, description, date, type (`upcoming` / `past`), registration URL (external link), cover photo, photo gallery (array of Cloudinary URLs), video embed URL(s)
 - `sponsors` — name, logo, tier, current/past flag, blurb
 - `sponsorship_tiers` — name, price, benefits — feeds sponsorship packages/benefits content
-- `sponsorship_content` (singleton) — brochure PDF (Cloudinary), general sponsorship page copy
 - `achievements` — title, description, date, media (photo), category (`competition` / `certification` / `media`)
-- `club_stats` — key/value rows or a small singleton (members count, events conducted, participation) for the Achievements page stats
 - `blog_posts` — title, rich-text body (Tiptap JSON), cover image, published date
 - `newsletters` — title, issue date, PDF (Cloudinary)
 - `speakers` — name, photo, bio, role/company, type (`guest_speaker` / `alumni` / `industry_expert`), testimonial text (for alumni)
-- `gallery_items` (optional, standalone) — for photos/reels not tied to a specific event; the Gallery page otherwise pulls from `events` and `achievements` media
+- `gallery_items` — standalone photos/reels curated independently of `events`/`achievements`, with its own display order; the Gallery page composites this table alongside event/achievement media rather than deriving everything from those tables
 
 ### Access control
 Row-Level Security on every table: public read access for everyone, write access
@@ -74,7 +74,10 @@ historical data (e.g. past sponsors, past team members) isn't destroyed.
 - **Forms:** react-hook-form + zod, with clear inline validation errors.
 - **Image uploads:** Direct-to-Cloudinary upload (signed upload preset) from within
   each form; the returned URL is stored in Supabase. Editors never touch Cloudinary's
-  own dashboard.
+  own dashboard. The signed preset is locked down explicitly — allowed formats
+  (JPEG/PNG/WebP, plus PDF for the brochure/newsletter fields), a max file size
+  (e.g. 10MB for images, 20MB for PDFs), and folder scoping per content type — since
+  this upload form is the only real perimeter around the Cloudinary account.
 - **Rich text:** Tiptap editor embedded in the blog post form.
 - **Publishing model:** Direct-publish — saving a form updates the live site via
   on-demand revalidation (below). No draft/review workflow for v1.
@@ -89,6 +92,13 @@ historical data (e.g. past sponsors, past team members) isn't destroyed.
   and responsive sizing, delivered through `next/image` with a Cloudinary loader.
 - **Performance budget:** Target Lighthouse ≥90 on mobile despite the animation —
   treated as a real constraint during build.
+- **SEO/sharing:** Per-page meta tags (title/description) via Next.js Metadata API,
+  a generated `sitemap.xml`, and per-item Open Graph images — Home gets a static OG
+  image, and each `events` and `blog_posts` item gets its own OG image (its cover
+  photo run through Cloudinary's transformation params, or a templated OG image if
+  no cover photo is set) so links shared to socials/WhatsApp render properly. This
+  is in scope for Phase 1, since Home and Events are the pages most likely to be
+  shared before the rest of the site exists.
 
 ## Visual Theme
 
@@ -104,18 +114,32 @@ historical data (e.g. past sponsors, past team members) isn't destroyed.
   `prefers-reduced-motion`, and disables heavier effects (custom cursor, parallax)
   on mobile.
 
+**Top execution risk:** the home hero animation is the piece most likely to blow the
+Lighthouse ≥90 mobile budget, since it combines the heaviest motion with real
+Cloudinary-served media. It should be prototyped early against real assets — not
+built last as a Phase 1 afterthought — so we know before the rest of the site is
+built around it whether the sequence needs to be simplified.
+
 ## Phasing Plan
 
+**Phase 0 — de-risk (before building the rest of the site around it):**
+- Prototype the home hero animation sequence against real Cloudinary-served assets
+  and measure it against the Lighthouse ≥90 mobile budget; simplify the sequence now
+  if it doesn't fit, rather than discovering this after the rest of Phase 1 is built.
+
 **Phase 1 — core, launch-ready:**
-- Infra setup: Next.js + Supabase wiring, Cloudinary setup, admin auth, Vercel
-  deployment under the club's own GitHub/Supabase accounts
+- Infra setup: Next.js + Supabase wiring, Cloudinary setup (including the locked-down
+  signed upload preset), admin auth, Vercel deployment under the club's own
+  GitHub/Supabase accounts
+- SEO/sharing: Metadata API, sitemap, OG images for Home and per-event/per-post
 - Public pages: Home, About Us, Team, Events & Competitions, Contact Us
 - Admin CRUD: site settings, about/home content, team members, events
 
 **Phase 2 — remaining sections:**
 - Public pages: Gallery, Sponsors & Partners, Achievements, Resources (blog +
   newsletters), Guest Speakers & Alumni
-- Admin CRUD: sponsors/tiers, achievements/stats, blog posts, newsletters, speakers
+- Admin CRUD: sponsors/tiers, achievements/stats, blog posts, newsletters, speakers,
+  gallery_items
 
 Each phase is a complete, deployable slice — Phase 1 is a fully usable, fully
 editable public site on its own.
