@@ -30,6 +30,9 @@ from the user's personal accounts — all repos/projects for this build go there
 - **Animation:** Framer Motion (scroll reveals, hover states, hero motion) — chosen over GSAP for being lighter and more idiomatic in Next.js while still sufficient for the desired motion
 - **Forms/validation:** react-hook-form + zod
 - **Rich text editor:** Tiptap (for blog posts)
+- **OG image generation:** `@vercel/og` (Satori-based, renders at the edge) for the
+  templated fallback Open Graph image used when an `events`/`blog_posts` item has no
+  cover photo
 
 ## Content Model (Supabase Tables)
 
@@ -45,11 +48,11 @@ Two kinds of content: **singleton** tables (one row, free-text page content) and
 
 ### Repeating-item tables
 - `team_members` — name, role, photo (Cloudinary URL), LinkedIn URL, category (`core` / `faculty` / `senior` / `junior`), display order
-- `events` — title, description, date, type (`upcoming` / `past`), registration URL (external link), cover photo, photo gallery (array of Cloudinary URLs), video embed URL(s)
+- `events` — title, **slug** (URL-safe, auto-generated from title on create, editable, unique), description, date, type (`upcoming` / `past`), registration URL (external link), cover photo, photo gallery (array of Cloudinary URLs), video embed URL(s)
 - `sponsors` — name, logo, tier, current/past flag, blurb
 - `sponsorship_tiers` — name, price, benefits — feeds sponsorship packages/benefits content
 - `achievements` — title, description, date, media (photo), category (`competition` / `certification` / `media`)
-- `blog_posts` — title, rich-text body (Tiptap JSON), cover image, published date
+- `blog_posts` — title, **slug** (URL-safe, auto-generated from title on create, editable, unique), rich-text body (Tiptap JSON), cover image, published date
 - `newsletters` — title, issue date, PDF (Cloudinary)
 - `speakers` — name, photo, bio, role/company, type (`guest_speaker` / `alumni` / `industry_expert`), testimonial text (for alumni)
 - `gallery_items` — standalone photos/reels curated independently of `events`/`achievements`, with its own display order; the Gallery page composites this table alongside event/achievement media rather than deriving everything from those tables
@@ -94,11 +97,13 @@ historical data (e.g. past sponsors, past team members) isn't destroyed.
   treated as a real constraint during build.
 - **SEO/sharing:** Per-page meta tags (title/description) via Next.js Metadata API,
   a generated `sitemap.xml`, and per-item Open Graph images — Home gets a static OG
-  image, and each `events` and `blog_posts` item gets its own OG image (its cover
-  photo run through Cloudinary's transformation params, or a templated OG image if
-  no cover photo is set) so links shared to socials/WhatsApp render properly. This
-  is in scope for Phase 1, since Home and Events are the pages most likely to be
-  shared before the rest of the site exists.
+  image, and each `events` and `blog_posts` item gets its own stable URL
+  (`/events/[slug]`, `/blog/[slug]`) and OG image (its cover photo run through
+  Cloudinary's transformation params, or a `@vercel/og`-generated templated image if
+  no cover photo is set) so links shared to socials/WhatsApp render properly and
+  keep working even if the title is edited later. This is in scope for Phase 1,
+  since Home and Events are the pages most likely to be shared before the rest of
+  the site exists.
 
 ## Visual Theme
 
