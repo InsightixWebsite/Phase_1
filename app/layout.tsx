@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Space_Grotesk, Inter } from "next/font/google";
+import { MotionConfig } from "framer-motion";
 import "./globals.css";
 
 // Bold display font for headings, exposed as font-display via app/globals.css
@@ -29,7 +30,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${display.variable} ${body.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-brand-bg font-body text-brand-text">
-        {children}
+        <MotionConfig reducedMotion="user">{children}</MotionConfig>
       </body>
     </html>
   );
