@@ -6,7 +6,11 @@ export const contentType = 'image/png'
 
 export default async function EventOgImage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
-  const event = await getEventBySlug(slug)
+  let event = await getEventBySlug(slug)
+
+  if (event && !event.is_active) {
+    event = null
+  }
 
   return new ImageResponse(
     (

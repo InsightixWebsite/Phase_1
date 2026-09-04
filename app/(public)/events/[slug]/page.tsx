@@ -5,7 +5,7 @@ import { buildCloudinaryUrl } from '@/lib/cloudinary'
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
   const event = await getEventBySlug(slug)
-  if (!event) return {}
+  if (!event || !event.is_active) return {}
   return { title: event.title, description: event.description ?? undefined }
 }
 
