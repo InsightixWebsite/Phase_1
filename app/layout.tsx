@@ -16,6 +16,9 @@ const body = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL ?? "https://insightix.example.com"
+  ),
   title: {
     default: "Insightix",
     template: "%s | Insightix",
