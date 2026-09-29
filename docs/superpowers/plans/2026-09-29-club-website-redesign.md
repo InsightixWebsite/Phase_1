@@ -1261,7 +1261,7 @@ git commit -m "feat: redesign Footer with logo mark, brand tokens, and structure
 - Modify: `components/home/Hero.tsx`
 
 **Interfaces:**
-- Consumes: `buildCloudinaryUrl` (existing), `PrimaryButton`/`SecondaryButton` (Task 6), `EyeIcon`/`LayersIcon`/`PeopleIcon`/`TargetIcon` (Task 6), `ParticleGlobe` (Task 9).
+- Consumes: `buildCloudinaryUrl` (existing), `PrimaryButton`/`SecondaryButton` (Task 6), `ChartIcon`/`LayersIcon`/`PeopleIcon`/`TargetIcon` (Task 6), `ParticleGlobe` (Task 9).
 - Produces: `Hero({ introText: string | null; bannerUrl: string | null; bannerType: 'image' | 'video' | null })` (unchanged props signature) — consumed by Task 14 (`app/(public)/page.tsx`).
 
 - [ ] **Step 1: Replace `components/home/Hero.tsx`**
@@ -1273,7 +1273,7 @@ import { motion } from 'framer-motion'
 import { buildCloudinaryUrl } from '@/lib/cloudinary'
 import { PrimaryButton } from '@/components/ui/PrimaryButton'
 import { SecondaryButton } from '@/components/ui/SecondaryButton'
-import { EyeIcon, LayersIcon, PeopleIcon, TargetIcon } from '@/components/ui/icons'
+import { ChartIcon, LayersIcon, PeopleIcon, TargetIcon } from '@/components/ui/icons'
 import { ParticleGlobe } from './ParticleGlobe'
 
 const container = {
@@ -1294,15 +1294,10 @@ interface HeroProps {
 
 const FEATURES = [
   { label: 'Workshops', description: 'Learn by doing', Icon: LayersIcon },
-  { label: 'Projects', description: 'Apply knowledge', Icon: ChartIconFeature },
+  { label: 'Projects', description: 'Apply knowledge', Icon: ChartIcon },
   { label: 'Community', description: 'Grow together', Icon: PeopleIcon },
   { label: 'Real Impact', description: 'Turn ideas into solutions', Icon: TargetIcon },
 ]
-
-// Placeholder to keep the array literal above readable — replaced in Step 1b below.
-function ChartIconFeature() {
-  return null
-}
 
 export function Hero({ introText, bannerUrl, bannerType }: HeroProps) {
   return (
@@ -1360,29 +1355,10 @@ export function Hero({ introText, bannerUrl, bannerType }: HeroProps) {
 }
 ```
 
-- [ ] **Step 1b: Fix the `FEATURES` icon list**
-
-The `ChartIconFeature` placeholder in Step 1 exists only so the file is syntactically complete for review — replace it now. Delete the `ChartIconFeature` function and its usage, import `ChartIcon` alongside the other icons, and use it directly:
-
-```tsx
-import { ChartIcon, EyeIcon, LayersIcon, PeopleIcon, TargetIcon } from '@/components/ui/icons'
-```
-
-```tsx
-const FEATURES = [
-  { label: 'Workshops', description: 'Learn by doing', Icon: LayersIcon },
-  { label: 'Projects', description: 'Apply knowledge', Icon: ChartIcon },
-  { label: 'Community', description: 'Grow together', Icon: PeopleIcon },
-  { label: 'Real Impact', description: 'Turn ideas into solutions', Icon: TargetIcon },
-]
-```
-
-(`EyeIcon` is imported but unused here — it's used by Task 15's About page and Task 14's Why-Insightix section, not by Hero. Remove `EyeIcon` from this file's import list since Hero itself doesn't use it.)
-
 - [ ] **Step 2: Verify**
 
 Run: `npx tsc --noEmit`
-Expected: no errors (in particular: no unused-import errors — double check the import list only names icons actually used in this file: `ChartIcon`, `LayersIcon`, `PeopleIcon`, `TargetIcon`).
+Expected: no errors (in particular: no unused-import errors — the import list should only name icons actually used in this file: `ChartIcon`, `LayersIcon`, `PeopleIcon`, `TargetIcon`).
 
 Run: `npx next build`
 Expected: build succeeds.
