@@ -1,6 +1,8 @@
 import { notFound } from 'next/navigation'
 import { getEventBySlug } from '@/lib/queries/events'
 import { buildCloudinaryUrl } from '@/lib/cloudinary'
+import { PrimaryButton } from '@/components/ui/PrimaryButton'
+import { Pill } from '@/components/ui/Pill'
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
@@ -20,31 +22,36 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
         <img
           src={buildCloudinaryUrl(event.cover_photo_url, { width: 1200 })}
           alt={event.title}
-          className="w-full rounded"
+          className="w-full rounded-xl border border-brand-border"
         />
       )}
-      <h1 className="mt-6 font-display text-4xl font-bold">{event.title}</h1>
-      <p className="mt-1 text-neutral-400">{event.event_date}</p>
-      {event.description && <p className="mt-6 text-neutral-300">{event.description}</p>}
+      <Pill className="mt-6" active={event.type === 'upcoming'}>
+        {event.type === 'upcoming' ? 'Upcoming' : 'Past'}
+      </Pill>
+      <h1 className="mt-4 font-display text-4xl font-bold">{event.title}</h1>
+      <p className="mt-1 text-brand-muted">{event.event_date}</p>
+      {event.description && <p className="mt-6 text-brand-muted">{event.description}</p>}
       {event.registration_url && (
-        <a
-          href={event.registration_url}
-          className="mt-6 inline-block rounded bg-amber-500 px-4 py-2 font-semibold text-black"
-        >
+        <PrimaryButton href={event.registration_url} className="mt-6">
           Register
-        </a>
+        </PrimaryButton>
       )}
       {event.gallery_urls.length > 0 && (
         <div className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-3">
           {event.gallery_urls.map((url) => (
-            <img key={url} src={buildCloudinaryUrl(url, { width: 400 })} alt="" className="rounded object-cover" />
+            <img
+              key={url}
+              src={buildCloudinaryUrl(url, { width: 400 })}
+              alt=""
+              className="rounded-lg border border-brand-border object-cover"
+            />
           ))}
         </div>
       )}
       {event.video_embed_urls.length > 0 && (
         <div className="mt-10 flex flex-col gap-4">
           {event.video_embed_urls.map((url) => (
-            <iframe key={url} src={url} className="aspect-video w-full rounded" allowFullScreen />
+            <iframe key={url} src={url} className="aspect-video w-full rounded-lg" allowFullScreen />
           ))}
         </div>
       )}
