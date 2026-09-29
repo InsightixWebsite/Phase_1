@@ -1,6 +1,6 @@
 # Insightix Club Website — Visual Redesign
 
-**Status:** Approved, ready for implementation plan
+**Status:** Implemented (pending manual visual QA)
 **Scope:** Public site only (`app/(public)/**`, shared layout components). Admin CMS (`app/admin/**`) is untouched — it already reads the updated color tokens from `globals.css` but its layout/markup is out of scope.
 
 ## Goal
