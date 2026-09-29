@@ -30,7 +30,7 @@ export function TeamCard({ member }: { member: TeamMember }) {
           target="_blank"
           rel="noopener noreferrer"
           aria-label={`${member.name} on LinkedIn`}
-          className="mt-1 inline-flex h-9 w-9 items-center justify-center rounded-full border border-brand-border text-brand-muted transition hover:border-brand-border-hover hover:text-brand-accent"
+          className="focus-ring mt-1 inline-flex h-9 w-9 items-center justify-center rounded-full border border-brand-border text-brand-muted transition hover:border-brand-border-hover hover:text-brand-accent"
         >
           <LinkedInIcon className="h-4 w-4" />
         </a>

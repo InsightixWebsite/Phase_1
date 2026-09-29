@@ -43,6 +43,14 @@ html {
   scroll-behavior: smooth;
 }
 
+.focus-ring {
+  outline: none;
+}
+.focus-ring:focus-visible {
+  outline: 2px solid var(--color-brand-accent);
+  outline-offset: 2px;
+}
+
 .bg-grid {
   position: fixed;
   inset: 0;

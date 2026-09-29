@@ -4,10 +4,12 @@ interface SectionHeadingProps {
   subtitle?: string
   align?: 'left' | 'center'
   className?: string
+  as?: 'h1' | 'h2'
 }
 
-export function SectionHeading({ eyebrow, title, subtitle, align = 'left', className }: SectionHeadingProps) {
+export function SectionHeading({ eyebrow, title, subtitle, align = 'left', className, as = 'h2' }: SectionHeadingProps) {
   const alignClasses = align === 'center' ? 'items-center text-center' : 'items-start text-left'
+  const Heading = as
   return (
     <div className={`flex flex-col gap-3 ${alignClasses} ${className ?? ''}`.trim()}>
       {eyebrow && (
@@ -16,7 +18,7 @@ export function SectionHeading({ eyebrow, title, subtitle, align = 'left', class
           {eyebrow}
         </span>
       )}
-      <h2 className="font-display text-3xl font-bold sm:text-4xl">{title}</h2>
+      <Heading className="font-display text-3xl font-bold sm:text-4xl">{title}</Heading>
       {subtitle && <p className="max-w-2xl text-brand-muted">{subtitle}</p>}
     </div>
   )

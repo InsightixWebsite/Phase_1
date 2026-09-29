@@ -25,21 +25,21 @@ export async function Footer() {
         </div>
         <nav className="flex flex-wrap gap-x-6 gap-y-2">
           {NAV_LINKS.map((link) => (
-            <Link key={link.href} href={link.href} className="hover:text-brand-accent">
+            <Link key={link.href} href={link.href} className="focus-ring hover:text-brand-accent">
               {link.label}
             </Link>
           ))}
         </nav>
         <div className="flex flex-col gap-2">
           {settings.contact_email && (
-            <a href={`mailto:${settings.contact_email}`} className="hover:text-brand-accent">
+            <a href={`mailto:${settings.contact_email}`} className="focus-ring hover:text-brand-accent">
               {settings.contact_email}
             </a>
           )}
           {socialEntries.length > 0 && (
             <div className="flex gap-4">
               {socialEntries.map(([platform, url]) => (
-                <a key={platform} href={url} className="capitalize hover:text-brand-accent">
+                <a key={platform} href={url} className="focus-ring capitalize hover:text-brand-accent">
                   {platform}
                 </a>
               ))}

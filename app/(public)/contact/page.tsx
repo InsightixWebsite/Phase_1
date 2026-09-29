@@ -29,6 +29,7 @@ export default async function ContactPage() {
   return (
     <main className="mx-auto max-w-3xl px-6 py-16">
       <SectionHeading
+        as="h1"
         eyebrow="— GET IN TOUCH"
         title="Let's Build Something Great"
         subtitle="Have a question, an idea, or want to collaborate? Reach out and we'll get back to you."

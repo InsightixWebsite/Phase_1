@@ -23,6 +23,7 @@ export default async function AboutPage() {
     <main className="mx-auto max-w-6xl px-6 py-16">
       <div className="grid gap-10 md:grid-cols-2 md:items-center">
         <SectionHeading
+          as="h1"
           eyebrow="— ABOUT US"
           title="About Insightix"
           subtitle="We are the analytics club, creating a platform for students to learn, apply, and grow their data and analytics skills through hands-on sessions, real-world projects, and industry interactions."
@@ -45,7 +46,10 @@ export default async function AboutPage() {
               aria-hidden="true"
             />
           )}
-          <div className="absolute inset-0 flex flex-col justify-between bg-gradient-to-t from-brand-bg/90 via-transparent to-transparent p-6">
+          <div
+            className="absolute inset-0 flex flex-col justify-between bg-gradient-to-t from-brand-bg/90 via-transparent to-transparent p-6"
+            aria-hidden="true"
+          >
             <span className="font-display text-2xl font-bold text-white/80">Insightix</span>
             <ul className="flex flex-col gap-1 text-right text-xs font-semibold uppercase tracking-widest text-brand-muted">
               <li>People</li>

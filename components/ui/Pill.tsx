@@ -7,7 +7,7 @@ interface PillProps {
 }
 
 export function Pill({ children, active = false, onClick, as = 'span', className }: PillProps) {
-  const classes = `inline-flex items-center gap-1.5 rounded-full border px-4 py-1.5 text-sm font-medium transition ${
+  const classes = `focus-ring inline-flex items-center gap-1.5 rounded-full border px-4 py-1.5 text-sm font-medium transition ${
     active
       ? 'border-brand-accent bg-brand-accent text-black'
       : 'border-brand-border text-brand-muted hover:border-brand-border-hover hover:text-white'

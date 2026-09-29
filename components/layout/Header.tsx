@@ -11,14 +11,14 @@ export async function Header() {
     <header className="sticky top-0 z-50 border-b border-brand-border bg-brand-bg/70 backdrop-blur">
       <div className="relative mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
         <Link href="/" className="flex items-center gap-2">
-          <img src={logoSrc} alt="Insightix logo" className="h-9 w-9" />
+          <img src={logoSrc} alt="" aria-hidden="true" className="h-9 w-9" />
           <span className="font-display text-lg font-bold">Insightix</span>
         </Link>
         <div className="hidden items-center gap-8 md:flex">
           <NavLinks className="flex items-center gap-8" />
           <Link
             href="/contact"
-            className="rounded-full bg-brand-accent px-4 py-2 text-sm font-semibold text-black transition hover:bg-brand-accent-hover"
+            className="focus-ring rounded-full bg-brand-accent px-4 py-2 text-sm font-semibold text-black transition hover:bg-brand-accent-hover"
           >
             Join Us
           </Link>

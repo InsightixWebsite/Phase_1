@@ -24,7 +24,7 @@ export function NavLinks({ className, onNavigate }: { className?: string; onNavi
             href={item.href}
             onClick={onNavigate}
             aria-current={active ? 'page' : undefined}
-            className={`relative pb-1 text-sm font-medium transition hover:text-brand-accent ${
+            className={`focus-ring relative pb-1 text-sm font-medium transition hover:text-brand-accent ${
               active
                 ? 'text-brand-accent after:absolute after:inset-x-0 after:-bottom-0 after:h-px after:bg-brand-accent'
                 : 'text-white'

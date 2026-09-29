@@ -9,6 +9,7 @@ export default async function TeamPage() {
   return (
     <main className="mx-auto max-w-6xl px-6 py-16">
       <SectionHeading
+        as="h1"
         eyebrow="— OUR TEAM"
         title="Meet the Team"
         subtitle="A group of passionate students building a stronger analytics community, together."

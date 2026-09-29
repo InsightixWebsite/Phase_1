@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation'
 import { getEventBySlug } from '@/lib/queries/events'
 import { buildCloudinaryUrl } from '@/lib/cloudinary'
+import { formatEventDate } from '@/lib/formatEventDate'
 import { PrimaryButton } from '@/components/ui/PrimaryButton'
 import { Pill } from '@/components/ui/Pill'
 
@@ -29,7 +30,7 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
         {event.type === 'upcoming' ? 'Upcoming' : 'Past'}
       </Pill>
       <h1 className="mt-4 font-display text-4xl font-bold">{event.title}</h1>
-      <p className="mt-1 text-brand-muted">{event.event_date}</p>
+      <p className="mt-1 text-brand-muted">{formatEventDate(event.event_date)}</p>
       {event.description && <p className="mt-6 text-brand-muted">{event.description}</p>}
       {event.registration_url && (
         <PrimaryButton href={event.registration_url} className="mt-6">

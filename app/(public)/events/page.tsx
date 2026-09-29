@@ -13,6 +13,7 @@ export default async function EventsPage() {
   return (
     <main className="mx-auto max-w-6xl px-6 py-16">
       <SectionHeading
+        as="h1"
         eyebrow="— EVENTS"
         title="Learn. Build. Network."
         subtitle="From workshops to speaker sessions, we host events that spark curiosity and turn learning into real-world skills."

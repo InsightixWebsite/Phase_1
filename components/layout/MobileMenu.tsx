@@ -30,7 +30,7 @@ export function MobileMenu() {
         aria-expanded={open}
         aria-controls="mobile-nav-panel"
         aria-label={open ? 'Close menu' : 'Open menu'}
-        className="flex h-10 w-10 items-center justify-center rounded-full border border-brand-border text-white"
+        className="focus-ring flex h-10 w-10 items-center justify-center rounded-full border border-brand-border text-white"
       >
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="h-5 w-5" aria-hidden="true">
           {open ? (

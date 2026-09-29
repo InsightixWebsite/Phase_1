@@ -1,12 +1,8 @@
 import Link from 'next/link'
 import { buildCloudinaryUrl } from '@/lib/cloudinary'
+import { formatEventDate } from '@/lib/formatEventDate'
 import type { Event } from '@/lib/supabase/types'
 import { PrimaryButton } from './PrimaryButton'
-
-function formatEventDate(dateString: string): string {
-  const date = new Date(`${dateString}T00:00:00`)
-  return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
-}
 
 interface EventCardProps {
   event: Event
@@ -23,7 +19,9 @@ export function EventCard({ event, variant = 'compact' }: EventCardProps) {
           <span className="inline-flex w-fit items-center rounded-full bg-brand-accent px-3 py-1 text-xs font-semibold uppercase tracking-wide text-black">
             Featured Event
           </span>
-          <h3 className="font-display text-2xl font-bold sm:text-3xl">{event.title}</h3>
+          <Link href={`/events/${event.slug}`} className="focus-ring rounded-sm">
+            <h3 className="font-display text-2xl font-bold sm:text-3xl hover:text-brand-accent">{event.title}</h3>
+          </Link>
           <p className="text-sm text-brand-muted">{formatEventDate(event.event_date)}</p>
           {event.description && <p className="text-brand-muted">{event.description}</p>}
           {event.registration_url && (
@@ -58,7 +56,7 @@ export function EventCard({ event, variant = 'compact' }: EventCardProps) {
   return (
     <Link
       href={`/events/${event.slug}`}
-      className="group flex flex-col gap-3 rounded-xl border border-brand-border bg-brand-surface p-5 transition hover:-translate-y-1 hover:border-brand-border-hover hover:shadow-[0_0_24px_-8px_rgba(255,122,0,0.35)]"
+      className="focus-ring group flex flex-col gap-3 rounded-xl border border-brand-border bg-brand-surface p-5 transition hover:-translate-y-1 hover:border-brand-border-hover hover:shadow-[0_0_24px_-8px_rgba(255,122,0,0.35)]"
     >
       <span className="w-fit rounded-full border border-brand-border px-2.5 py-0.5 text-xs font-medium text-brand-muted">
         {statusLabel}
