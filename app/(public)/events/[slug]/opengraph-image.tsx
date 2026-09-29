@@ -28,7 +28,7 @@ export default async function EventOgImage({ params }: { params: Promise<{ slug:
           fontWeight: 700,
         }}
       >
-        <div style={{ color: '#f5820c' }}>Insightix</div>
+        <div style={{ color: '#FF7A00' }}>Insightix</div>
         <div style={{ fontSize: 40, marginTop: 20, textAlign: 'center', padding: '0 60px' }}>
           {event?.title ?? 'Event'}
         </div>
