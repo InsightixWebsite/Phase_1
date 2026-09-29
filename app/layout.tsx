@@ -33,6 +33,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${display.variable} ${body.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-brand-bg font-body text-brand-text">
+        <div className="bg-grid" aria-hidden="true" />
         <MotionConfig reducedMotion="user">{children}</MotionConfig>
       </body>
     </html>

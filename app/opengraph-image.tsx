@@ -21,7 +21,7 @@ export default function HomeOgImage() {
         }}
       >
         <div style={{ display: 'flex' }}>
-          Insight<span style={{ color: '#f5820c' }}>ix</span>
+          Insight<span style={{ color: '#FF7A00' }}>ix</span>
         </div>
         <div style={{ display: 'flex', fontSize: 32, marginTop: 16, color: '#a3a3a3' }}>Tech Club</div>
       </div>
