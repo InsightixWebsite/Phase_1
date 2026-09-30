@@ -56,12 +56,20 @@ html {
   inset: 0;
   z-index: -10;
   pointer-events: none;
+  /*
+   * The vignette (3rd layer) fades the grid to the plain background color
+   * toward the edges. This used to be a mask-image, but mask-image on a
+   * fixed full-viewport layer forces the browser off the cheap compositing
+   * path and re-composites it on every scroll frame -- a real, measurable
+   * source of scroll jank. Baking the fade into background-image instead
+   * keeps this layer on the fast path (it never has to repaint on scroll,
+   * only in place).
+   */
   background-image:
     linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
-  background-size: 48px 48px;
-  mask-image: radial-gradient(ellipse at center, black 55%, transparent 100%);
-  -webkit-mask-image: radial-gradient(ellipse at center, black 55%, transparent 100%);
+    linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+    radial-gradient(ellipse at center, transparent 0%, var(--color-brand-bg) 100%);
+  background-size: 48px 48px, 48px 48px, 100% 100%;
 }
 
 @keyframes float {

@@ -8,7 +8,7 @@ export async function Header() {
   const settings = await getSiteSettings()
   const logoSrc = settings.logo_url ? buildCloudinaryUrl(settings.logo_url, { width: 48 }) : '/logo-mark.png'
   return (
-    <header className="sticky top-0 z-50 border-b border-brand-border bg-brand-bg/70 backdrop-blur">
+    <header className="sticky top-0 z-50 border-b border-brand-border bg-brand-bg/85">
       <div className="relative mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
         <Link href="/" className="flex items-center gap-2">
           <img src={logoSrc} alt="" aria-hidden="true" className="h-9 w-9" />
