@@ -50,6 +50,11 @@ export default async function AboutPage() {
             className="absolute inset-0 flex flex-col justify-between bg-gradient-to-t from-brand-bg/90 via-transparent to-transparent p-6"
             aria-hidden="true"
           >
+            <img
+              src="/logo-mark.png"
+              alt=""
+              className="absolute left-1/2 top-1/2 h-36 w-36 -translate-x-1/2 -translate-y-1/2 opacity-25 sm:h-52 sm:w-52"
+            />
             <span className="font-display text-2xl font-bold text-white/80">Insightix</span>
             <ul className="flex flex-col gap-1 text-right text-xs font-semibold uppercase tracking-widest text-brand-muted">
               <li>People</li>
