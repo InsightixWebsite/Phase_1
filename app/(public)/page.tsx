@@ -1,5 +1,7 @@
 import { getHomeContent } from '@/lib/queries/homeContent'
 import { getRecentEvents } from '@/lib/queries/events'
+import { getActiveSponsors } from '@/lib/queries/sponsors'
+import { buildCloudinaryUrl } from '@/lib/cloudinary'
 import { Hero } from '@/components/home/Hero'
 import { RevealSection } from '@/components/RevealSection'
 import { SectionHeading } from '@/components/ui/SectionHeading'
@@ -24,7 +26,11 @@ const WHY_INSIGHTIX = [
 ]
 
 export default async function HomePage() {
-  const [content, recentEvents] = await Promise.all([getHomeContent(), getRecentEvents(3)])
+  const [content, recentEvents, sponsors] = await Promise.all([
+    getHomeContent(),
+    getRecentEvents(3),
+    getActiveSponsors(),
+  ])
 
   return (
     <main>
@@ -72,6 +78,32 @@ export default async function HomePage() {
           ))}
         </div>
       </RevealSection>
+
+      {sponsors.length > 0 && (
+        <RevealSection className="mx-auto max-w-6xl px-6 py-16">
+          <SectionHeading eyebrow="— OUR SPONSORS" title="Our Sponsors" align="center" className="mx-auto items-center text-center" />
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-6">
+            {sponsors.map((sponsor) => (
+              <div key={sponsor.id} className="flex flex-col items-center gap-2">
+                <div className="flex h-16 w-32 items-center justify-center rounded-lg bg-white p-2">
+                  {sponsor.logo_url ? (
+                    <img
+                      src={buildCloudinaryUrl(sponsor.logo_url, { width: 160 })}
+                      alt={sponsor.name}
+                      className="max-h-full max-w-full object-contain"
+                    />
+                  ) : (
+                    <span className="text-center text-xs font-semibold text-neutral-500">{sponsor.name}</span>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="mt-8 flex justify-center">
+            <SecondaryButton href="/sponsors">View All Sponsors</SecondaryButton>
+          </div>
+        </RevealSection>
+      )}
     </main>
   )
 }
