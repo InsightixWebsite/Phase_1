@@ -11,6 +11,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           <Link href="/admin/about">About</Link>
           <Link href="/admin/team">Team</Link>
           <Link href="/admin/events">Events</Link>
+          <Link href="/admin/sponsors">Sponsors</Link>
         </div>
         <form action={signOut}>
           <button type="submit" className="text-sm text-neutral-400">Log out</button>
