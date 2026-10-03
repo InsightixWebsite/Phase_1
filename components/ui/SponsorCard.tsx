@@ -12,7 +12,9 @@ function SponsorCardContent({ sponsor }: { sponsor: Sponsor }) {
             className="max-h-full max-w-full object-contain"
           />
         ) : (
-          <span className="font-display text-sm font-bold text-neutral-400">{sponsor.name}</span>
+          <span className="font-display text-sm font-bold text-neutral-500" aria-hidden="true">
+            {sponsor.name}
+          </span>
         )}
       </div>
       <p className="mt-4 font-display font-bold text-white">{sponsor.name}</p>

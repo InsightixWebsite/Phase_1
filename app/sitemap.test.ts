@@ -18,6 +18,7 @@ describe('sitemap', () => {
         'https://insightix.example.com/about',
         'https://insightix.example.com/team',
         'https://insightix.example.com/events',
+        'https://insightix.example.com/sponsors',
         'https://insightix.example.com/contact',
       ])
     )

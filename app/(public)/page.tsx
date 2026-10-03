@@ -29,7 +29,7 @@ export default async function HomePage() {
   const [content, recentEvents, sponsors] = await Promise.all([
     getHomeContent(),
     getRecentEvents(3),
-    getActiveSponsors(),
+    getActiveSponsors().catch(() => []),
   ])
 
   return (
@@ -96,6 +96,7 @@ export default async function HomePage() {
                     <span className="text-center text-xs font-semibold text-neutral-500">{sponsor.name}</span>
                   )}
                 </div>
+                <span className="text-xs text-brand-muted">{sponsor.name}</span>
               </div>
             ))}
           </div>
