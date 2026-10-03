@@ -48,3 +48,14 @@ export interface Event {
   is_active: boolean
   created_at: string
 }
+
+export interface Sponsor {
+  id: string
+  name: string
+  logo_url: string | null
+  description: string | null
+  website_url: string | null
+  display_order: number
+  is_active: boolean
+  created_at: string
+}

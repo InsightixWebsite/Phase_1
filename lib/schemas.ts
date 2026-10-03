@@ -52,3 +52,12 @@ export const eventSchema = z.object({
   video_embed_urls: z.array(z.string().url()),
 })
 export type EventInput = z.infer<typeof eventSchema>
+
+export const sponsorSchema = z.object({
+  name: z.string().min(1, 'Name is required'),
+  logo_url: z.string().url().nullable(),
+  description: z.string().nullable(),
+  website_url: z.string().url('Enter a valid URL').or(z.literal('')).nullable(),
+  display_order: z.coerce.number().int(),
+})
+export type SponsorInput = z.infer<typeof sponsorSchema>
