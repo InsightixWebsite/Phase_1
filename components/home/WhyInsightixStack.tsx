@@ -46,11 +46,16 @@ export function WhyInsightixStack() {
       <div className="why-stack relative mt-16">
         {STAGES.map((stage, i) => {
           const isLast = i === STAGES.length - 1
+          // A slot must be taller than the card itself -- the extra height
+          // beyond --stack-card-height is the scroll distance the card
+          // dwells in its stuck position before the next slot begins. The
+          // last slot gets a second helping of that dwell distance so the
+          // final card has room to rest before the section releases.
+          const slotHeight = isLast
+            ? 'calc(var(--stack-card-height) + 2 * var(--stack-gap))'
+            : 'calc(var(--stack-card-height) + var(--stack-gap))'
           return (
-            <div
-              key={stage.title}
-              style={{ height: isLast ? 'calc(var(--stack-gap) + var(--stack-card-height))' : 'var(--stack-gap)' }}
-            >
+            <div key={stage.title} style={{ height: slotHeight }}>
               <div
                 style={{
                   position: 'sticky',
