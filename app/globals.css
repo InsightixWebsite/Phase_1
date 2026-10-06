@@ -51,6 +51,27 @@ html {
   outline-offset: 2px;
 }
 
+/*
+ * Sticky card-stack (Why Insightix). Pure CSS position:sticky at increasing
+ * offsets -- no scroll listener, no JS driving the stacking itself. Values
+ * only, so the same component file can read them via var() at any
+ * breakpoint without duplicating the responsive logic in TSX.
+ */
+.why-stack {
+  --stack-top: 72px;
+  --stack-step: 32px;
+  --stack-gap: clamp(150px, 28vh, 240px);
+  --stack-card-height: 420px;
+}
+@media (min-width: 768px) {
+  .why-stack {
+    --stack-top: 80px;
+    --stack-step: 40px;
+    --stack-gap: clamp(220px, 36vh, 360px);
+    --stack-card-height: 390px;
+  }
+}
+
 .bg-grid {
   position: fixed;
   inset: 0;
