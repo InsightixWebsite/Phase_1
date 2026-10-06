@@ -40,7 +40,7 @@ export function Hero({ introText, bannerUrl, bannerType }: HeroProps) {
             className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-brand-accent"
           >
             <span className="h-px w-6 bg-brand-accent" aria-hidden="true" />
-            Student Analytics Club
+            IMT Hyderabad Analytics Club
           </motion.span>
           <motion.h1 variants={item} className="font-display text-5xl font-bold sm:text-7xl">
             Insight<span className="text-brand-accent">ix</span>
