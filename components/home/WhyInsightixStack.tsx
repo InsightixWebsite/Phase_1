@@ -54,6 +54,12 @@ export function WhyInsightixStack() {
           const slotHeight = isLast
             ? 'calc(var(--stack-card-height) + 2 * var(--stack-gap))'
             : 'calc(var(--stack-card-height) + var(--stack-gap))'
+          // Layers back from the front card (0 = frontmost/widest, fixed
+          // per card rather than tracked dynamically against scroll --
+          // every card's own depth in the final stack never changes).
+          // This inset on both sides is what makes the stack actually
+          // read as a 3D fan rather than flat cards offset only vertically.
+          const layersBack = STAGES.length - 1 - i
           return (
             <div key={stage.title} style={{ height: slotHeight }}>
               <div
@@ -62,6 +68,7 @@ export function WhyInsightixStack() {
                   top: `calc(var(--stack-top) + ${i} * var(--stack-step))`,
                   zIndex: i + 1,
                   height: 'var(--stack-card-height)',
+                  marginInline: `calc(${layersBack} * var(--stack-inset))`,
                 }}
                 className="flex flex-col overflow-hidden rounded-xl border border-brand-border bg-brand-surface"
               >
