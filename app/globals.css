@@ -82,12 +82,12 @@ html {
   }
 }
 
-@keyframes spin {
+@keyframes orbit-dot {
   from {
-    transform: rotateY(0deg);
+    transform: translateX(0);
   }
   to {
-    transform: rotateY(360deg);
+    transform: translateX(var(--orbit-x));
   }
 }
 
