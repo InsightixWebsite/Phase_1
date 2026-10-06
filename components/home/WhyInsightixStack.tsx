@@ -166,7 +166,7 @@ export function WhyInsightixStack() {
                   </span>
                   <h3 className="font-display text-lg font-bold">{stage.title}</h3>
                 </div>
-                <div className="flex flex-1 flex-col justify-center px-6 py-8">
+                <div className="flex flex-1 flex-col justify-center px-6 py-6">
                   <p className="max-w-md text-brand-muted">{stage.description}</p>
                 </div>
               </div>
