@@ -59,14 +59,16 @@ html {
  */
 .why-stack {
   --stack-top: 72px;
-  --stack-step: 32px;
+  /* Also the header strip's own height -- keep these coupled so each
+     earlier card's peek reveals exactly its header, never a partial slice. */
+  --stack-step: 44px;
   --stack-gap: clamp(150px, 28vh, 240px);
   --stack-card-height: 420px;
 }
 @media (min-width: 768px) {
   .why-stack {
     --stack-top: 80px;
-    --stack-step: 40px;
+    --stack-step: 48px;
     --stack-gap: clamp(220px, 36vh, 360px);
     --stack-card-height: 390px;
   }

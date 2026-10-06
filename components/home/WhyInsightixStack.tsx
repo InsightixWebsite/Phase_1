@@ -65,12 +65,22 @@ export function WhyInsightixStack() {
                 }}
                 className="flex flex-col overflow-hidden rounded-xl border border-brand-border bg-brand-surface"
               >
-                <div className="flex shrink-0 items-center gap-3 border-b border-brand-border bg-white/[0.04] px-6 py-4">
-                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-brand-border text-brand-accent">
+                {/*
+                 * Height is pinned to --stack-step on purpose: that's also
+                 * the vertical offset between consecutive cards, so each
+                 * earlier card's peek reveals exactly this header strip,
+                 * cropped cleanly at its own bottom border -- never a
+                 * partial slice of whatever sits below it.
+                 */}
+                <div
+                  style={{ height: 'var(--stack-step)' }}
+                  className="flex shrink-0 items-center gap-3 border-b border-brand-border bg-white/[0.04] px-6"
+                >
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-brand-border text-brand-accent">
                     <stage.Icon className="h-4 w-4" />
                   </span>
                   <span className="font-display text-sm font-bold text-brand-muted">{String(i + 1).padStart(2, '0')}</span>
-                  <h3 className="font-display text-xl font-bold">{stage.title}</h3>
+                  <h3 className="font-display text-lg font-bold">{stage.title}</h3>
                 </div>
                 <div className="flex flex-1 flex-col justify-center px-6 py-8">
                   <p className="max-w-md text-brand-muted">{stage.description}</p>
