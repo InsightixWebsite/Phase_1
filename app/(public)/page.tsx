@@ -3,11 +3,11 @@ import { getRecentEvents } from '@/lib/queries/events'
 import { getActiveSponsors } from '@/lib/queries/sponsors'
 import { buildCloudinaryUrl } from '@/lib/cloudinary'
 import { Hero } from '@/components/home/Hero'
+import { EventsEditorial } from '@/components/home/EventsEditorial'
 import { RevealSection } from '@/components/RevealSection'
 import { SectionHeading } from '@/components/ui/SectionHeading'
 import { SecondaryButton } from '@/components/ui/SecondaryButton'
 import { StatBar } from '@/components/ui/StatBar'
-import { EventCard } from '@/components/ui/EventCard'
 import { EyeIcon, LayersIcon, PeopleIcon, TargetIcon } from '@/components/ui/icons'
 
 // Placeholder — replace with real club figures once available.
@@ -28,7 +28,7 @@ const WHY_INSIGHTIX = [
 export default async function HomePage() {
   const [content, recentEvents, sponsors] = await Promise.all([
     getHomeContent(),
-    getRecentEvents(3),
+    getRecentEvents(6),
     getActiveSponsors().catch(() => []),
   ])
 
@@ -40,21 +40,9 @@ export default async function HomePage() {
         <StatBar stats={HOME_STATS} />
       </RevealSection>
 
-      <RevealSection className="mx-auto max-w-6xl px-6 py-16">
-        <div className="flex flex-wrap items-end justify-between gap-4">
-          <SectionHeading eyebrow="— RECENT EVENTS" title="Recent Events & Workshops" />
-          <SecondaryButton href="/events">View All Events</SecondaryButton>
-        </div>
-        {recentEvents.length > 0 ? (
-          <div className="mt-8 grid gap-6 sm:grid-cols-3">
-            {recentEvents.map((event) => (
-              <EventCard key={event.id} event={event} variant="compact" />
-            ))}
-          </div>
-        ) : (
-          <p className="mt-8 text-brand-muted">No events yet — check back soon.</p>
-        )}
-      </RevealSection>
+      <section className="mx-auto max-w-6xl px-6 py-16">
+        <EventsEditorial events={recentEvents} />
+      </section>
 
       <RevealSection className="mx-auto max-w-6xl px-6 py-16">
         <SectionHeading
