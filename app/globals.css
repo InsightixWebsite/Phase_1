@@ -64,11 +64,17 @@ html {
   --stack-step: 44px;
   --stack-gap: clamp(150px, 28vh, 240px);
   --stack-card-height: 420px;
+  /* Horizontal inset added PER LAYER back from the front card -- this is
+     what actually reads as a 3D fan rather than flat cards stacked only
+     vertically: the front card is full width, each one behind it is
+     narrower by 2x this amount (applied to both sides). */
+  --stack-inset: 18px;
 }
 @media (min-width: 768px) {
   .why-stack {
     --stack-top: 80px;
     --stack-step: 48px;
+    --stack-inset: 26px;
     --stack-gap: clamp(220px, 36vh, 360px);
     --stack-card-height: 390px;
   }
