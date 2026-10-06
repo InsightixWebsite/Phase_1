@@ -67,7 +67,10 @@ html {
   --stack-top: 72px;
   --header-height: 56px;
   --stack-card-height: 440px;
-  --stack-end-gap: calc(var(--stack-card-height) - var(--header-height));
+  /* Deliberately more than the dwell every earlier card gets "for free"
+     (card-height - header-height) -- the last card has no following card
+     to lean on for extra runway, so it gets extra breathing room instead. */
+  --stack-end-gap: calc(var(--stack-card-height) + 160px);
 }
 @media (min-width: 768px) {
   .why-stack {
