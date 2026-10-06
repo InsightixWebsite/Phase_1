@@ -52,35 +52,28 @@ html {
 }
 
 /*
- * Sticky card-stack (Why Insightix). Pure CSS position:sticky at increasing
- * offsets -- no scroll listener, no JS driving the stacking itself. Values
- * only, so the same component file can read them via var() at any
- * breakpoint without duplicating the responsive logic in TSX.
+ * Sticky accordion deck (Why Insightix). Pure CSS position:sticky at
+ * increasing `top` offsets, one offset-step per card -- no scroll listener,
+ * no JS driving the stacking itself. --header-height IS the step: card i's
+ * `top` is --stack-top + i * --header-height, so each earlier card's body
+ * gets covered the instant the next card reaches its own sticky position,
+ * leaving exactly that earlier card's header strip peeking above it. Scroll
+ * distance comes from each card's own natural height (no margin-bottom
+ * between cards) -- the stack's trailing spacer below gives the LAST card
+ * the same dwell time the others get "for free" from the next card's
+ * approach.
  */
 .why-stack {
   --stack-top: 72px;
-  /* Also the header strip's own height -- keep these coupled so each
-     earlier card's peek reveals exactly its header, never a partial slice. */
-  --stack-step: 44px;
-  --stack-gap: clamp(150px, 28vh, 240px);
-  --stack-card-height: 420px;
-  /* Horizontal inset added PER LAYER back from the front card -- this is
-     what actually reads as a 3D fan rather than flat cards stacked only
-     vertically: the front card is full width, each one behind it is
-     narrower by 2x this amount (applied to both sides). */
-  --stack-inset: 18px;
-  /* The last card's margin-bottom: a short breathing gap instead of a full
-     --stack-gap, since nothing needs to rise into view after it. */
-  --stack-end-gap: 64px;
+  --header-height: 56px;
+  --stack-card-height: 440px;
+  --stack-end-gap: calc(var(--stack-card-height) - var(--header-height));
 }
 @media (min-width: 768px) {
   .why-stack {
-    --stack-top: 80px;
-    --stack-step: 48px;
-    --stack-inset: 26px;
-    --stack-gap: clamp(220px, 36vh, 360px);
-    --stack-card-height: 390px;
-    --stack-end-gap: 96px;
+    --stack-top: 90px;
+    --header-height: 64px;
+    --stack-card-height: 520px;
   }
 }
 

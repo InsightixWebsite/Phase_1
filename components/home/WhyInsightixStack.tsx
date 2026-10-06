@@ -1,3 +1,6 @@
+'use client'
+
+import { useEffect, useRef, useState } from 'react'
 import { RevealSection } from '@/components/RevealSection'
 import { SectionHeading } from '@/components/ui/SectionHeading'
 import { EyeIcon, LayersIcon, PeopleIcon, TargetIcon } from '@/components/ui/icons'
@@ -9,18 +12,79 @@ const STAGES = [
   { title: 'Compete', description: 'Take your skills into hackathons and case competitions.', Icon: TargetIcon },
 ] as const
 
+// Identifies which card is currently covering its own sticky trigger line --
+// the frontmost ("active") card in the deck. This is detection only, never
+// positioning: for each card we collapse the IntersectionObserver root to a
+// single horizontal line at the exact viewport y-coordinate that card
+// sticks to (--stack-top + i * --header-height), so the card intersects
+// that line for precisely as long as position:sticky (applied in the
+// markup below) holds it there. CSS does all of the actual layout.
+function useActiveStackCard(count: number) {
+  const containerRef = useRef<HTMLDivElement | null>(null)
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([])
+  const [activeIndex, setActiveIndex] = useState(0)
+
+  useEffect(() => {
+    const container = containerRef.current
+    if (!container) return
+
+    let observers: IntersectionObserver[] = []
+    const stuck = new Array(count).fill(false)
+
+    function setup() {
+      if (!container) return
+      observers.forEach((observer) => observer.disconnect())
+      observers = []
+
+      const style = getComputedStyle(container)
+      const top = parseFloat(style.getPropertyValue('--stack-top'))
+      const headerHeight = parseFloat(style.getPropertyValue('--header-height'))
+      const viewportHeight = window.innerHeight
+
+      cardRefs.current.forEach((card, i) => {
+        if (!card) return
+        const triggerY = top + i * headerHeight
+        const rootMargin = `${-triggerY}px 0px ${-(viewportHeight - triggerY)}px 0px`
+        const observer = new IntersectionObserver(
+          ([entry]) => {
+            stuck[i] = entry.isIntersecting
+            let active = 0
+            for (let k = 0; k < count; k++) {
+              if (stuck[k]) active = k
+            }
+            setActiveIndex(active)
+          },
+          { rootMargin, threshold: 0 }
+        )
+        observer.observe(card)
+        observers.push(observer)
+      })
+    }
+
+    setup()
+    window.addEventListener('resize', setup)
+    return () => {
+      observers.forEach((observer) => observer.disconnect())
+      window.removeEventListener('resize', setup)
+    }
+  }, [count])
+
+  return { containerRef, cardRefs, activeIndex }
+}
+
 export function WhyInsightixStack() {
+  const { containerRef, cardRefs, activeIndex } = useActiveStackCard(STAGES.length)
+
   return (
     <div className="mx-auto max-w-6xl px-6 py-16">
       {/*
        * The heading/rail get RevealSection's entrance fade -- fine, since
-       * nothing sticky lives inside it. The card stack below is
-       * deliberately OUTSIDE RevealSection: Framer Motion animates that
-       * wrapper via a CSS `transform` (even at rest it leaves
-       * `transform: translateY(0px)` on the element, not `none`), and a
-       * `transform` on ANY ancestor creates a new containing block that
-       * silently breaks `position: sticky` for every descendant. That was
-       * the actual bug -- the cards were never sticking at all.
+       * nothing sticky lives inside it. The deck below is deliberately
+       * OUTSIDE RevealSection: Framer Motion animates that wrapper via a
+       * CSS `transform` (even at rest it leaves `transform: translateY(0px)`
+       * on the element, not `none`), and a `transform` on ANY ancestor
+       * creates a new containing block that silently breaks
+       * `position: sticky` for every descendant.
        */}
       <RevealSection>
         <SectionHeading
@@ -45,77 +109,61 @@ export function WhyInsightixStack() {
         </div>
       </RevealSection>
 
-      {/*
-       * Sticky card stack. Pure CSS: every card is `position: sticky` at an
-       * increasing `top` offset (via the --stack-* custom properties on
-       * .why-stack, defined in app/globals.css with a mobile/desktop
-       * split), as a DIRECT child of .why-stack -- no per-card wrapper.
-       * That matters: a sticky element's dwell range is bounded by its own
-       * containing block. Wrapping each card in its own sized "slot" div
-       * (an earlier attempt) gave each card its own, competing containing
-       * block, which forced a choice between every card having real dwell
-       * time XOR all four staying fanned together at the end. Letting all
-       * four share ONE containing block (.why-stack itself) removes that
-       * tradeoff: each card's own `margin-bottom` (--stack-gap) only sets
-       * how far the NEXT card's static position is pushed down -- it does
-       * not bound this card's own stuck range -- so every card still gets
-       * a full scroll-gap's worth of dwell AND all of them keep releasing
-       * together once .why-stack's own bottom comes into view. No JS
-       * drives the stacking -- native scroll + sticky positioning only.
-       */}
-      <div className="why-stack relative mt-16">
+      <div ref={containerRef} className="why-stack relative mt-16">
         {STAGES.map((stage, i) => {
-          const isLast = i === STAGES.length - 1
-          // Layers back from the front card (0 = frontmost/widest, fixed
-          // per card rather than tracked dynamically against scroll --
-          // every card's own depth in the final stack never changes).
-          // This inset on both sides is what makes the stack actually
-          // read as a 3D fan rather than flat cards offset only vertically.
-          const layersBack = STAGES.length - 1 - i
+          const isActive = i === activeIndex
           return (
             <div
               key={stage.title}
+              ref={(el) => {
+                cardRefs.current[i] = el
+              }}
               style={{
                 position: 'sticky',
-                top: `calc(var(--stack-top) + ${i} * var(--stack-step))`,
+                top: `calc(var(--stack-top) + ${i} * var(--header-height))`,
                 zIndex: i + 1,
-                // The last card doesn't need to hold the scroll open for a
-                // sibling to rise into -- a short breathing gap instead of
-                // a full --stack-gap avoids a dead scroll stretch after it.
-                marginBottom: isLast ? 'var(--stack-end-gap)' : 'var(--stack-gap)',
               }}
             >
               {/*
                * bg-neutral-900 (solid), not bg-brand-surface (rgba(255,255,
-               * 255,0.03), near-transparent) -- every other card on the
-               * site sits alone against the page, where a 3% tint reads
-               * fine. Here, multiple cards overlap each other and whatever
-               * has scrolled up behind the stack; a solid color is what
-               * lets the frontmost card actually hide everything behind
-               * it, the way an opaque sheet of paper would.
+               * 255,0.03), near-transparent) -- multiple cards overlap here
+               * and whatever has scrolled up behind the deck; a solid color
+               * is what lets the frontmost card actually hide everything
+               * behind it, the way an opaque sheet of paper would.
                */}
               <div
-                style={{
-                  height: 'var(--stack-card-height)',
-                  marginInline: `calc(${layersBack} * var(--stack-inset))`,
-                }}
-                className="flex flex-col overflow-hidden rounded-xl border border-brand-border bg-neutral-900"
+                style={{ height: 'var(--stack-card-height)' }}
+                className={`flex flex-col overflow-hidden rounded-xl border bg-neutral-900 transition-colors duration-300 ${
+                  isActive ? 'border-brand-accent/40' : 'border-brand-border'
+                }`}
               >
                 {/*
-                 * Height is pinned to --stack-step on purpose: that's also
-                 * the vertical offset between consecutive cards, so each
-                 * earlier card's peek reveals exactly this header strip,
-                 * cropped cleanly at its own bottom border -- never a
-                 * partial slice of whatever sits below it.
+                 * Height is pinned to --header-height on purpose: that's
+                 * also the sticky `top` step between consecutive cards, so
+                 * each earlier card's peek reveals exactly this header
+                 * strip, cropped cleanly at its own bottom border -- never
+                 * a partial slice of whatever sits below it.
                  */}
                 <div
-                  style={{ height: 'var(--stack-step)' }}
-                  className="flex shrink-0 items-center gap-3 border-b border-brand-border bg-white/[0.04] px-6"
+                  style={{ height: 'var(--header-height)' }}
+                  className={`flex shrink-0 items-center gap-3 border-b px-6 transition-colors duration-300 ${
+                    isActive ? 'border-brand-accent/30 bg-white/[0.07]' : 'border-brand-border bg-white/[0.04]'
+                  }`}
                 >
-                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-brand-border text-brand-accent">
+                  <span
+                    className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border text-brand-accent transition-colors duration-300 ${
+                      isActive ? 'border-brand-accent/60' : 'border-brand-border'
+                    }`}
+                  >
                     <stage.Icon className="h-4 w-4" />
                   </span>
-                  <span className="font-display text-sm font-bold text-brand-muted">{String(i + 1).padStart(2, '0')}</span>
+                  <span
+                    className={`font-display text-sm font-bold transition-colors duration-300 ${
+                      isActive ? 'text-brand-accent' : 'text-brand-muted'
+                    }`}
+                  >
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
                   <h3 className="font-display text-lg font-bold">{stage.title}</h3>
                 </div>
                 <div className="flex flex-1 flex-col justify-center px-6 py-8">
@@ -125,6 +173,11 @@ export function WhyInsightixStack() {
             </div>
           )
         })}
+        {/* Gives the last card the same dwell time every earlier card gets
+            "for free" from the next card's approach -- without it, the
+            deck's own bottom edge would end exactly where the last card's
+            sticky range starts, releasing it immediately. */}
+        <div style={{ height: 'var(--stack-end-gap)' }} aria-hidden="true" />
       </div>
     </div>
   )
