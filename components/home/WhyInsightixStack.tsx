@@ -56,18 +56,19 @@ export function WhyInsightixStack() {
       <div className="why-stack relative mt-16">
         {STAGES.map((stage, i) => {
           // How long a sticky card stays visibly stuck is governed by its
-          // own slot's height alone -- and because every card's `top`
-          // increases by the SAME --stack-step, any two consecutive cards'
-          // stuck windows only ever overlap by exactly one --stack-step,
-          // no matter how tall you make an individual slot. The only way
-          // for EARLIER cards to still be pinned once the LAST card has
-          // settled (so the final view shows all of them fanned together,
-          // matching the reference) is for every card to release at the
-          // same scroll position -- which forces every slot except the
-          // first down to exactly --stack-step, with all of the dwell
-          // time concentrated in the first card's slot instead.
-          const slotHeight =
-            i === 0 ? 'calc(var(--stack-card-height) + 3 * var(--stack-gap))' : 'var(--stack-step)'
+          // own slot's height alone, and any two consecutive cards' stuck
+          // windows only ever overlap by exactly one --stack-step. Forcing
+          // every card to release at the SAME scroll position (so all 4
+          // stay fanned together forever) requires collapsing every slot
+          // but the first down to that single --stack-step -- which also
+          // forces cards 2-4 to each ENGAGE at that same instant, reading
+          // as "stuck together" rather than arriving one by one. Giving
+          // every slot a real, tapering share of --stack-gap instead keeps
+          // each card's arrival individually paced (first card lingers
+          // longest, each later one a bit less) at the cost of the very
+          // first card eventually scrolling out of view by the time the
+          // last one settles -- serial pacing over permanent accumulation.
+          const slotHeight = `calc(${STAGES.length - i} * var(--stack-gap))`
           // Layers back from the front card (0 = frontmost/widest, fixed
           // per card rather than tracked dynamically against scroll --
           // every card's own depth in the final stack never changes).
