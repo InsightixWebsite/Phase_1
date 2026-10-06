@@ -28,7 +28,7 @@ const WHY_INSIGHTIX = [
 export default async function HomePage() {
   const [content, recentEvents, sponsors] = await Promise.all([
     getHomeContent(),
-    getRecentEvents(6),
+    getRecentEvents(3),
     getActiveSponsors().catch(() => []),
   ])
 
