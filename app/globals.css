@@ -69,6 +69,9 @@ html {
      vertically: the front card is full width, each one behind it is
      narrower by 2x this amount (applied to both sides). */
   --stack-inset: 18px;
+  /* The last card's margin-bottom: a short breathing gap instead of a full
+     --stack-gap, since nothing needs to rise into view after it. */
+  --stack-end-gap: 64px;
 }
 @media (min-width: 768px) {
   .why-stack {
@@ -77,6 +80,7 @@ html {
     --stack-inset: 26px;
     --stack-gap: clamp(220px, 36vh, 360px);
     --stack-card-height: 390px;
+    --stack-end-gap: 96px;
   }
 }
 

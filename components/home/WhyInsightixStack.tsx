@@ -46,29 +46,26 @@ export function WhyInsightixStack() {
       </RevealSection>
 
       {/*
-       * Sticky card stack. Pure CSS: each card is `position: sticky` at an
+       * Sticky card stack. Pure CSS: every card is `position: sticky` at an
        * increasing `top` offset (via the --stack-* custom properties on
        * .why-stack, defined in app/globals.css with a mobile/desktop
-       * split), inside a "slot" whose height gives enough scroll distance
-       * to read one stage before the next card rises to cover it. No JS
+       * split), as a DIRECT child of .why-stack -- no per-card wrapper.
+       * That matters: a sticky element's dwell range is bounded by its own
+       * containing block. Wrapping each card in its own sized "slot" div
+       * (an earlier attempt) gave each card its own, competing containing
+       * block, which forced a choice between every card having real dwell
+       * time XOR all four staying fanned together at the end. Letting all
+       * four share ONE containing block (.why-stack itself) removes that
+       * tradeoff: each card's own `margin-bottom` (--stack-gap) only sets
+       * how far the NEXT card's static position is pushed down -- it does
+       * not bound this card's own stuck range -- so every card still gets
+       * a full scroll-gap's worth of dwell AND all of them keep releasing
+       * together once .why-stack's own bottom comes into view. No JS
        * drives the stacking -- native scroll + sticky positioning only.
        */}
       <div className="why-stack relative mt-16">
         {STAGES.map((stage, i) => {
-          // How long a sticky card stays visibly stuck is governed by its
-          // own slot's height alone, and any two consecutive cards' stuck
-          // windows only ever overlap by exactly one --stack-step. Forcing
-          // every card to release at the SAME scroll position (so all 4
-          // stay fanned together forever) requires collapsing every slot
-          // but the first down to that single --stack-step -- which also
-          // forces cards 2-4 to each ENGAGE at that same instant, reading
-          // as "stuck together" rather than arriving one by one. Giving
-          // every slot a real, tapering share of --stack-gap instead keeps
-          // each card's arrival individually paced (first card lingers
-          // longest, each later one a bit less) at the cost of the very
-          // first card eventually scrolling out of view by the time the
-          // last one settles -- serial pacing over permanent accumulation.
-          const slotHeight = `calc(${STAGES.length - i} * var(--stack-gap))`
+          const isLast = i === STAGES.length - 1
           // Layers back from the front card (0 = frontmost/widest, fixed
           // per card rather than tracked dynamically against scroll --
           // every card's own depth in the final stack never changes).
@@ -76,7 +73,18 @@ export function WhyInsightixStack() {
           // read as a 3D fan rather than flat cards offset only vertically.
           const layersBack = STAGES.length - 1 - i
           return (
-            <div key={stage.title} style={{ height: slotHeight }}>
+            <div
+              key={stage.title}
+              style={{
+                position: 'sticky',
+                top: `calc(var(--stack-top) + ${i} * var(--stack-step))`,
+                zIndex: i + 1,
+                // The last card doesn't need to hold the scroll open for a
+                // sibling to rise into -- a short breathing gap instead of
+                // a full --stack-gap avoids a dead scroll stretch after it.
+                marginBottom: isLast ? 'var(--stack-end-gap)' : 'var(--stack-gap)',
+              }}
+            >
               {/*
                * bg-neutral-900 (solid), not bg-brand-surface (rgba(255,255,
                * 255,0.03), near-transparent) -- every other card on the
@@ -88,9 +96,6 @@ export function WhyInsightixStack() {
                */}
               <div
                 style={{
-                  position: 'sticky',
-                  top: `calc(var(--stack-top) + ${i} * var(--stack-step))`,
-                  zIndex: i + 1,
                   height: 'var(--stack-card-height)',
                   marginInline: `calc(${layersBack} * var(--stack-inset))`,
                 }}
