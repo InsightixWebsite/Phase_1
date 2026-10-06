@@ -76,6 +76,15 @@ export function WhyInsightixStack() {
           const layersBack = STAGES.length - 1 - i
           return (
             <div key={stage.title} style={{ height: slotHeight }}>
+              {/*
+               * bg-neutral-900 (solid), not bg-brand-surface (rgba(255,255,
+               * 255,0.03), near-transparent) -- every other card on the
+               * site sits alone against the page, where a 3% tint reads
+               * fine. Here, multiple cards overlap each other and whatever
+               * has scrolled up behind the stack; a solid color is what
+               * lets the frontmost card actually hide everything behind
+               * it, the way an opaque sheet of paper would.
+               */}
               <div
                 style={{
                   position: 'sticky',
@@ -84,7 +93,7 @@ export function WhyInsightixStack() {
                   height: 'var(--stack-card-height)',
                   marginInline: `calc(${layersBack} * var(--stack-inset))`,
                 }}
-                className="flex flex-col overflow-hidden rounded-xl border border-brand-border bg-brand-surface"
+                className="flex flex-col overflow-hidden rounded-xl border border-brand-border bg-neutral-900"
               >
                 {/*
                  * Height is pinned to --stack-step on purpose: that's also
