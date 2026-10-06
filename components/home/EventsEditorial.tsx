@@ -62,18 +62,18 @@ function EventRow({ event, index, imageOnRight }: EventRowProps) {
       whileInView={{ opacity: 1, x: 0, y: 0, scale: 1 }}
       viewport={viewport}
       transition={transition}
-      className="overflow-hidden rounded-xl border border-brand-border md:w-[58%]"
+      className="overflow-hidden rounded-xl border border-brand-border md:w-[44%]"
     >
       {event.cover_photo_url ? (
         <img
-          src={buildCloudinaryUrl(event.cover_photo_url, { width: 900 })}
+          src={buildCloudinaryUrl(event.cover_photo_url, { width: 700 })}
           alt={event.title}
           loading="lazy"
-          className="aspect-[4/3] w-full object-cover"
+          className="aspect-[16/11] w-full object-cover"
         />
       ) : (
         <div
-          className="aspect-[4/3] w-full bg-brand-bg"
+          className="aspect-[16/11] w-full bg-brand-bg"
           style={{
             backgroundImage:
               'linear-gradient(rgba(255,255,255,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.08) 1px, transparent 1px)',
@@ -91,7 +91,7 @@ function EventRow({ event, index, imageOnRight }: EventRowProps) {
       whileInView={{ opacity: 1, x: 0, y: 0 }}
       viewport={viewport}
       transition={transition}
-      className="flex flex-col gap-3 md:w-[36%]"
+      className="flex flex-col gap-3 md:w-[48%]"
     >
       <span className="font-display text-sm font-bold text-brand-accent">{String(index + 1).padStart(2, '0')}</span>
       <span className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-accent">
