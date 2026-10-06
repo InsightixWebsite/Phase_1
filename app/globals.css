@@ -67,10 +67,11 @@ html {
   --stack-top: 72px;
   --header-height: 56px;
   --stack-card-height: 200px;
-  /* Deliberately more than the dwell every earlier card gets "for free"
-     (card-height - header-height) -- the last card has no following card
-     to lean on for extra runway, so it gets extra breathing room instead. */
-  --stack-end-gap: calc(var(--stack-card-height) + 160px);
+  /* Matches the dwell every earlier card gets "for free" while the next
+     card approaches it. A flat +160px (tried briefly) scaled fine against
+     the old, much taller cards but reads as an oversized dead gap now that
+     the cards themselves are this short. */
+  --stack-end-gap: calc(var(--stack-card-height) - var(--header-height));
 }
 @media (min-width: 768px) {
   .why-stack {
