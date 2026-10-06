@@ -4,11 +4,11 @@ import { getActiveSponsors } from '@/lib/queries/sponsors'
 import { buildCloudinaryUrl } from '@/lib/cloudinary'
 import { Hero } from '@/components/home/Hero'
 import { EventsEditorial } from '@/components/home/EventsEditorial'
+import { WhyInsightixStack } from '@/components/home/WhyInsightixStack'
 import { RevealSection } from '@/components/RevealSection'
 import { SectionHeading } from '@/components/ui/SectionHeading'
 import { SecondaryButton } from '@/components/ui/SecondaryButton'
 import { StatBar } from '@/components/ui/StatBar'
-import { EyeIcon, LayersIcon, PeopleIcon, TargetIcon } from '@/components/ui/icons'
 
 // Placeholder — replace with real club figures once available.
 const HOME_STATS = [
@@ -16,13 +16,6 @@ const HOME_STATS = [
   { value: '10+', label: 'Workshops' },
   { value: '8+', label: 'Projects' },
   { value: '12+', label: 'Sessions' },
-]
-
-const WHY_INSIGHTIX = [
-  { title: 'Learn', description: 'Hands-on sessions covering analytics tools, from spreadsheets to Python.', Icon: EyeIcon },
-  { title: 'Build', description: 'Apply what you learn on real datasets and real projects.', Icon: LayersIcon },
-  { title: 'Collaborate', description: 'Work alongside a community of curious, driven students.', Icon: PeopleIcon },
-  { title: 'Compete', description: 'Take your skills into hackathons and case competitions.', Icon: TargetIcon },
 ]
 
 export default async function HomePage() {
@@ -44,28 +37,7 @@ export default async function HomePage() {
         <EventsEditorial events={recentEvents} />
       </section>
 
-      <RevealSection className="mx-auto max-w-6xl px-6 py-16">
-        <SectionHeading
-          eyebrow="— WHY INSIGHTIX"
-          title="Why Join Insightix"
-          align="center"
-          className="mx-auto items-center text-center"
-        />
-        <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {WHY_INSIGHTIX.map(({ title, description, Icon }) => (
-            <div
-              key={title}
-              className="rounded-xl border border-brand-border bg-brand-surface p-6 transition hover:-translate-y-1 hover:border-brand-border-hover hover:shadow-[0_0_24px_-8px_rgba(255,122,0,0.35)]"
-            >
-              <span className="flex h-11 w-11 items-center justify-center rounded-full border border-brand-border text-brand-accent">
-                <Icon className="h-5 w-5" />
-              </span>
-              <h3 className="mt-4 font-display text-lg font-bold">{title}</h3>
-              <p className="mt-2 text-sm text-brand-muted">{description}</p>
-            </div>
-          ))}
-        </div>
-      </RevealSection>
+      <WhyInsightixStack />
 
       {sponsors.length > 0 && (
         <RevealSection className="mx-auto max-w-6xl px-6 py-16">
