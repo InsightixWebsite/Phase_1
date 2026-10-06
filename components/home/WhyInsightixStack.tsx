@@ -55,15 +55,19 @@ export function WhyInsightixStack() {
        */}
       <div className="why-stack relative mt-16">
         {STAGES.map((stage, i) => {
-          const isLast = i === STAGES.length - 1
-          // A slot must be taller than the card itself -- the extra height
-          // beyond --stack-card-height is the scroll distance the card
-          // dwells in its stuck position before the next slot begins. The
-          // last slot gets a second helping of that dwell distance so the
-          // final card has room to rest before the section releases.
-          const slotHeight = isLast
-            ? 'calc(var(--stack-card-height) + 2 * var(--stack-gap))'
-            : 'calc(var(--stack-card-height) + var(--stack-gap))'
+          // How long a sticky card stays visibly stuck is governed by its
+          // own slot's height alone -- and because every card's `top`
+          // increases by the SAME --stack-step, any two consecutive cards'
+          // stuck windows only ever overlap by exactly one --stack-step,
+          // no matter how tall you make an individual slot. The only way
+          // for EARLIER cards to still be pinned once the LAST card has
+          // settled (so the final view shows all of them fanned together,
+          // matching the reference) is for every card to release at the
+          // same scroll position -- which forces every slot except the
+          // first down to exactly --stack-step, with all of the dwell
+          // time concentrated in the first card's slot instead.
+          const slotHeight =
+            i === 0 ? 'calc(var(--stack-card-height) + 3 * var(--stack-gap))' : 'var(--stack-step)'
           // Layers back from the front card (0 = frontmost/widest, fixed
           // per card rather than tracked dynamically against scroll --
           // every card's own depth in the final stack never changes).
