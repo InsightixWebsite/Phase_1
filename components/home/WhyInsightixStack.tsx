@@ -11,27 +11,39 @@ const STAGES = [
 
 export function WhyInsightixStack() {
   return (
-    <RevealSection className="mx-auto max-w-6xl px-6 py-16">
-      <SectionHeading
-        eyebrow="— WHY INSIGHTIX"
-        title="Why Join Insightix"
-        subtitle="Four stages of what being part of the club actually looks like."
-        align="center"
-        className="mx-auto items-center text-center"
-      />
+    <div className="mx-auto max-w-6xl px-6 py-16">
+      {/*
+       * The heading/rail get RevealSection's entrance fade -- fine, since
+       * nothing sticky lives inside it. The card stack below is
+       * deliberately OUTSIDE RevealSection: Framer Motion animates that
+       * wrapper via a CSS `transform` (even at rest it leaves
+       * `transform: translateY(0px)` on the element, not `none`), and a
+       * `transform` on ANY ancestor creates a new containing block that
+       * silently breaks `position: sticky` for every descendant. That was
+       * the actual bug -- the cards were never sticking at all.
+       */}
+      <RevealSection>
+        <SectionHeading
+          eyebrow="— WHY INSIGHTIX"
+          title="Why Join Insightix"
+          subtitle="Four stages of what being part of the club actually looks like."
+          align="center"
+          className="mx-auto items-center text-center"
+        />
 
-      {/* Stage rail -- a visual index only, not interactive tabs. */}
-      <div className="mx-auto mt-10 grid max-w-2xl grid-cols-2 gap-3 md:grid-cols-4">
-        {STAGES.map((stage, i) => (
-          <div
-            key={stage.title}
-            className="flex items-center justify-center gap-2 rounded-full border border-brand-border px-3 py-2 text-xs font-medium text-brand-muted"
-          >
-            <span className="font-display font-bold text-brand-accent">{String(i + 1).padStart(2, '0')}</span>
-            {stage.title}
-          </div>
-        ))}
-      </div>
+        {/* Stage rail -- a visual index only, not interactive tabs. */}
+        <div className="mx-auto mt-10 grid max-w-2xl grid-cols-2 gap-3 md:grid-cols-4">
+          {STAGES.map((stage, i) => (
+            <div
+              key={stage.title}
+              className="flex items-center justify-center gap-2 rounded-full border border-brand-border px-3 py-2 text-xs font-medium text-brand-muted"
+            >
+              <span className="font-display font-bold text-brand-accent">{String(i + 1).padStart(2, '0')}</span>
+              {stage.title}
+            </div>
+          ))}
+        </div>
+      </RevealSection>
 
       {/*
        * Sticky card stack. Pure CSS: each card is `position: sticky` at an
@@ -39,9 +51,7 @@ export function WhyInsightixStack() {
        * .why-stack, defined in app/globals.css with a mobile/desktop
        * split), inside a "slot" whose height gives enough scroll distance
        * to read one stage before the next card rises to cover it. No JS
-       * drives the stacking -- native scroll + sticky positioning only,
-       * exactly as specced. Reduced-motion is unaffected since this isn't
-       * a Framer Motion / transform-based animation, just layout.
+       * drives the stacking -- native scroll + sticky positioning only.
        */}
       <div className="why-stack relative mt-16">
         {STAGES.map((stage, i) => {
@@ -97,6 +107,6 @@ export function WhyInsightixStack() {
           )
         })}
       </div>
-    </RevealSection>
+    </div>
   )
 }
