@@ -77,10 +77,9 @@ export function SponsorStrip({ sponsors }: { sponsors: Sponsor[] }) {
     >
       <motion.div variants={riseVariants}>
         <SectionHeading
+          eyebrow="— PARTNERSHIPS"
           title="Sponsors & Partners"
           subtitle="Backing ideas. Building opportunities."
-          align="center"
-          className="mx-auto items-center text-center"
           subtitleClassName="text-brand-accent"
         />
       </motion.div>
