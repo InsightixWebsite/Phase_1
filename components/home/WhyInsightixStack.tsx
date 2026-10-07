@@ -143,9 +143,7 @@ export function WhyInsightixStack() {
                */}
               <div
                 style={{ height: 'var(--stack-card-height)' }}
-                className={`flex flex-col overflow-hidden rounded-xl border bg-neutral-900 transition-colors duration-300 ${
-                  isActive ? 'border-brand-accent/40' : 'border-brand-border'
-                }`}
+                className="flex flex-col overflow-hidden rounded-xl border border-brand-accent/40 bg-neutral-900 transition-colors duration-300"
               >
                 {/*
                  * Height is pinned to --header-height on purpose: that's
@@ -156,15 +154,11 @@ export function WhyInsightixStack() {
                  */}
                 <div
                   style={{ height: 'var(--header-height)' }}
-                  className={`flex shrink-0 items-center gap-3 border-b px-6 transition-colors duration-300 ${
-                    isActive ? 'border-brand-accent/30 bg-white/[0.07]' : 'border-brand-border bg-white/[0.04]'
+                  className={`flex shrink-0 items-center gap-3 border-b border-brand-accent/30 px-6 transition-colors duration-300 ${
+                    isActive ? 'bg-white/[0.07]' : 'bg-white/[0.04]'
                   }`}
                 >
-                  <span
-                    className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border text-brand-accent transition-colors duration-300 ${
-                      isActive ? 'border-brand-accent/60' : 'border-brand-border'
-                    }`}
-                  >
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-brand-accent/60 text-brand-accent transition-colors duration-300">
                     <stage.Icon className="h-4 w-4" />
                   </span>
                   <span
