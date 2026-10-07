@@ -122,6 +122,16 @@ export function WhyInsightixStack() {
                 position: 'sticky',
                 top: `calc(var(--stack-top) + ${i} * var(--header-height))`,
                 zIndex: i + 1,
+                // Release-point compensation, not visible spacing: a sticky
+                // card's margin box (not just its border box) counts toward
+                // the containing block's bottom boundary, so a bigger `top`
+                // makes a card hit that boundary EARLIER than one with a
+                // smaller `top` -- without this, card 4 (the largest top)
+                // always reaches the boundary first and creeps away while
+                // 1-3 are still pinned. Owing each earlier card the header
+                // steps it's "ahead" by equalizes every card's effective
+                // release point to card 4's, so all four let go together.
+                marginBottom: `calc(${STAGES.length - 1 - i} * var(--header-height))`,
               }}
             >
               {/*
