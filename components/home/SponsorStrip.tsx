@@ -81,6 +81,7 @@ export function SponsorStrip({ sponsors }: { sponsors: Sponsor[] }) {
           subtitle="Backing ideas. Building opportunities."
           align="center"
           className="mx-auto items-center text-center"
+          subtitleClassName="text-brand-accent"
         />
       </motion.div>
 
