@@ -39,11 +39,12 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
       )}
       {event.gallery_urls.length > 0 && (
         <div className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-3">
-          {event.gallery_urls.map((url) => (
+          {event.gallery_urls.map((url, index) => (
             <img
               key={url}
               src={buildCloudinaryUrl(url, { width: 400 })}
-              alt=""
+              alt={`${event.title} — photo ${index + 1}`}
+              loading="lazy"
               className="rounded-lg border border-brand-border object-cover"
             />
           ))}
