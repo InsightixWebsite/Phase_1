@@ -15,7 +15,7 @@ export async function Footer() {
   const socialEntries = Object.entries(settings.social_links ?? {})
 
   return (
-    <footer className="border-t border-brand-border px-6 py-12 text-sm text-brand-muted">
+    <footer className="border-t border-brand-border-strong px-6 py-12 text-sm text-brand-muted">
       <div className="mx-auto flex max-w-6xl flex-col gap-10 sm:flex-row sm:justify-between">
         <div className="max-w-xs">
           <div className="flex items-center gap-2">
@@ -48,7 +48,7 @@ export async function Footer() {
           )}
         </div>
       </div>
-      <div className="mx-auto mt-10 max-w-6xl border-t border-brand-border pt-6 text-xs">
+      <div className="mx-auto mt-10 max-w-6xl border-t border-brand-border-strong pt-6 text-xs">
         © {new Date().getFullYear()} Insightix. All rights reserved.
       </div>
     </footer>
