@@ -56,7 +56,7 @@ export function EventCard({ event, variant = 'compact' }: EventCardProps) {
   return (
     <Link
       href={`/events/${event.slug}`}
-      className="focus-ring group flex flex-col overflow-hidden rounded-xl border border-brand-border bg-brand-surface transition hover:-translate-y-1 hover:border-brand-border-hover hover:shadow-[0_0_24px_-8px_rgba(255,122,0,0.35)]"
+      className="focus-ring group flex flex-col overflow-hidden rounded-xl border border-brand-border bg-brand-surface transition hover:-translate-y-1 hover:border-brand-border-hover-neutral"
     >
       <div className="aspect-video w-full overflow-hidden">
         {event.cover_photo_url ? (

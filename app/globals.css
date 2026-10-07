@@ -16,8 +16,22 @@
 
   /* Brand tokens -> bg-brand-bg / text-brand-accent / text-brand-text, etc. */
   --color-brand-bg: #0b0b0b;
-  --color-brand-surface: rgba(255, 255, 255, 0.03);
-  --color-brand-border: rgba(255, 255, 255, 0.1);
+  /*
+   * Was rgba(255,255,255,0.03) -- transparent enough that the page's grid
+   * background visibly continued through every card, panel and list row
+   * built on this token. Solid (not just higher-opacity) so the grid
+   * reliably stops at a content surface's edge instead of bleeding
+   * through it, however faintly.
+   */
+  --color-brand-surface: #141414;
+  --color-brand-border: rgba(255, 255, 255, 0.08);
+  /*
+   * Default hover for an ordinary content surface (an event card, a
+   * sponsor card, a filter pill) -- a neutral brighten, not an accent
+   * color. --color-brand-border-hover (orange) stays reserved for actual
+   * active/selected/CTA states, not every hovered box on the site.
+   */
+  --color-brand-border-hover-neutral: rgba(255, 255, 255, 0.14);
   --color-brand-border-hover: rgba(255, 122, 0, 0.4);
   /*
    * A plain, un-hovered border/divider gets lost against the page's grid

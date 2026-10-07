@@ -37,24 +37,41 @@ export default async function ContactPage() {
         className="mx-auto items-center text-center"
       />
 
-      <div className="mt-12 grid gap-4 sm:grid-cols-2">
-        {infoRows.map((row) => (
-          <div key={row.label} className="flex items-start gap-4 rounded-xl border border-brand-border bg-brand-surface p-5">
-            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-brand-border text-brand-accent">
-              <row.Icon className="h-4 w-4" />
-            </span>
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-widest text-brand-muted">{row.label}</p>
-              {row.href ? (
-                <a href={row.href} className="mt-1 block font-medium text-white hover:text-brand-accent">
-                  {row.value}
-                </a>
-              ) : (
-                <p className="mt-1 font-medium text-white">{row.value}</p>
-              )}
-            </div>
-          </div>
-        ))}
+      {/*
+       * One grouped surface instead of four separate bordered cards -- the
+       * rows are all the same kind of content (a way to reach the club),
+       * so they read better separated by thin internal rules than by
+       * repeating the same rounded-box pattern four times.
+       */}
+      <div className="mt-12 overflow-hidden rounded-2xl border border-brand-border bg-brand-surface">
+        <div className="grid sm:grid-cols-2">
+          {infoRows.map((row, i) => {
+            const isSecondColumn = i % 2 === 1
+            const isFirstRow = i < 2
+            return (
+              <div
+                key={row.label}
+                className={`flex items-start gap-4 border-brand-border p-5 ${i > 0 ? 'border-t' : ''} ${
+                  isSecondColumn ? 'sm:border-l' : ''
+                } ${isFirstRow && i > 0 ? 'sm:border-t-0' : ''}`}
+              >
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-brand-border text-brand-accent">
+                  <row.Icon className="h-4 w-4" />
+                </span>
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-widest text-brand-muted">{row.label}</p>
+                  {row.href ? (
+                    <a href={row.href} className="mt-1 block font-medium text-white hover:text-brand-accent">
+                      {row.value}
+                    </a>
+                  ) : (
+                    <p className="mt-1 font-medium text-white">{row.value}</p>
+                  )}
+                </div>
+              </div>
+            )
+          })}
+        </div>
       </div>
 
       {socialEntries.length > 0 && (
@@ -63,7 +80,7 @@ export default async function ContactPage() {
             <a
               key={platform}
               href={url}
-              className="rounded-full border border-brand-border px-4 py-2 text-sm capitalize text-brand-muted hover:border-brand-border-hover hover:text-brand-accent"
+              className="rounded-full border border-brand-border px-4 py-2 text-sm capitalize text-brand-muted hover:border-brand-border-hover-neutral hover:text-brand-accent"
             >
               {platform}
             </a>
