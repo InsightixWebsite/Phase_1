@@ -91,12 +91,10 @@ export function WhyInsightixStack() {
           eyebrow="— WHY INSIGHTIX"
           title="Why Join Insightix"
           subtitle="Four stages of what being part of the club actually looks like."
-          align="center"
-          className="mx-auto items-center text-center"
         />
 
         {/* Stage rail -- a visual index only, not interactive tabs. */}
-        <div className="mx-auto mt-10 grid max-w-2xl grid-cols-2 gap-3 md:grid-cols-4">
+        <div className="mt-10 grid max-w-2xl grid-cols-2 gap-3 md:grid-cols-4">
           {STAGES.map((stage, i) => (
             <div
               key={stage.title}
