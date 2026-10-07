@@ -39,10 +39,6 @@ body {
   color: var(--foreground);
 }
 
-html {
-  scroll-behavior: smooth;
-}
-
 .focus-ring {
   outline: none;
 }
@@ -121,10 +117,6 @@ html {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-
   *,
   *::before,
   *::after {
