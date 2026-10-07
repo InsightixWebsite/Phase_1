@@ -19,6 +19,14 @@
   --color-brand-surface: rgba(255, 255, 255, 0.03);
   --color-brand-border: rgba(255, 255, 255, 0.1);
   --color-brand-border-hover: rgba(255, 122, 0, 0.4);
+  /*
+   * A plain, un-hovered border/divider gets lost against the page's grid
+   * background texture at 0.1 opacity -- usable for a card's own edge
+   * (framed by the darker void around it), but not for a divider that sits
+   * directly over the grid lines (StatBar's column dividers, the footer's
+   * rules). This is for those specific cases, not a sitewide bump.
+   */
+  --color-brand-border-strong: rgba(255, 255, 255, 0.22);
   --color-brand-accent: #ff7a00;
   --color-brand-accent-hover: #ff8a00;
   --color-brand-text: #ffffff;
