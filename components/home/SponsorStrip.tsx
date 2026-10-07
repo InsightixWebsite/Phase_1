@@ -17,26 +17,38 @@ const riseVariants = {
 }
 
 function SponsorLogo({ sponsor }: { sponsor: Sponsor }) {
-  // brightness-0 + invert flattens any logo into a plain white silhouette --
-  // "monochrome like our theme" -- but at near-full opacity by default (not
-  // faded) so the wall reads as present and legible at rest, not disabled.
-  // Hover lifts the mark, reveals its true colors, and adds a restrained
-  // accent underline -- no card, no glow, no scale beyond a hair over 1x.
+  // Real uploaded logos are rarely transparent cutouts -- most are flat
+  // JPG/PNG files with their own solid white or light background. An
+  // invert-to-silhouette filter assumes transparency and, on an opaque
+  // logo, flattens the ENTIRE rectangle to a plain white block (the "weird
+  // blob" bug). A plain grayscale filter has no such assumption: it only
+  // desaturates, so an opaque logo's own light background stays light and
+  // its mark/text stays legible at whatever contrast the source art has.
+  // The soft white plate behind it (no border, no shadow) is what actually
+  // makes this format-agnostic: a white-background logo blends into it
+  // seamlessly, and a transparent one gets a clean plinth to sit on --
+  // either way nothing reads as "a broken box."
   const content = sponsor.logo_url ? (
     <img
       src={buildCloudinaryUrl(sponsor.logo_url, { width: 200 })}
       alt={sponsor.name}
       loading="lazy"
-      className="max-h-9 w-auto max-w-[140px] object-contain opacity-85 brightness-0 invert transition-all duration-300 group-hover:opacity-100 group-hover:brightness-100 group-hover:invert-0"
+      className="max-h-8 w-auto max-w-[120px] object-contain opacity-90 grayscale transition-all duration-300 group-hover:opacity-100 group-hover:grayscale-0"
     />
   ) : (
-    <span className="text-sm font-semibold uppercase tracking-wide text-white/85 transition-colors duration-300 group-hover:text-brand-accent">
+    <span className="text-sm font-semibold uppercase tracking-wide text-brand-muted transition-colors duration-300 group-hover:text-brand-accent">
       {sponsor.name}
     </span>
   )
 
+  const plateClasses = sponsor.logo_url
+    ? 'rounded-lg bg-white/90 px-5 py-3 group-hover:bg-white'
+    : 'rounded-lg border border-brand-border bg-brand-surface px-5 py-3'
+
   const inner = (
-    <span className="group inline-flex items-center justify-center border-b border-transparent pb-1.5 transition-all duration-300 hover:-translate-y-[3px] hover:scale-[1.02] hover:border-brand-accent/50">
+    <span
+      className={`group inline-flex items-center justify-center border-b border-transparent transition-all duration-300 hover:-translate-y-[3px] hover:scale-[1.02] hover:border-brand-accent/50 ${plateClasses}`}
+    >
       {content}
     </span>
   )
