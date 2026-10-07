@@ -61,7 +61,7 @@ export default async function ContactPage() {
                 <div>
                   <p className="text-xs font-semibold uppercase tracking-widest text-brand-muted">{row.label}</p>
                   {row.href ? (
-                    <a href={row.href} className="mt-1 block font-medium text-white hover:text-brand-accent">
+                    <a href={row.href} className="focus-ring mt-1 block w-fit font-medium text-white hover:text-brand-accent">
                       {row.value}
                     </a>
                   ) : (
@@ -80,7 +80,7 @@ export default async function ContactPage() {
             <a
               key={platform}
               href={url}
-              className="rounded-full border border-brand-border px-4 py-2 text-sm capitalize text-brand-muted hover:border-brand-border-hover-neutral hover:text-brand-accent"
+              className="focus-ring rounded-full border border-brand-border px-4 py-2 text-sm capitalize text-brand-muted hover:border-brand-border-hover-neutral hover:text-brand-accent"
             >
               {platform}
             </a>
