@@ -25,7 +25,7 @@ function SponsorCardContent({ sponsor }: { sponsor: Sponsor }) {
 
 export function SponsorCard({ sponsor }: { sponsor: Sponsor }) {
   const cardClasses =
-    'flex flex-col rounded-xl border border-brand-border bg-brand-surface p-6 text-center items-center transition hover:-translate-y-1 hover:border-brand-border-hover hover:shadow-[0_0_24px_-8px_rgba(255,122,0,0.35)]'
+    'flex flex-col rounded-xl border border-brand-border bg-brand-surface p-6 text-center items-center transition hover:-translate-y-1 hover:border-brand-border-hover-neutral'
 
   if (sponsor.website_url) {
     return (

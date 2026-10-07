@@ -71,25 +71,27 @@ export default async function AboutPage() {
       </RevealSection>
 
       {(content.mission || content.vision) && (
-        <RevealSection className="mt-12 grid gap-6 sm:grid-cols-2">
-          {content.mission && (
-            <div className="rounded-xl border border-brand-border bg-brand-surface p-6">
-              <span className="flex h-11 w-11 items-center justify-center rounded-full border border-brand-border text-brand-accent">
-                <TargetIcon className="h-5 w-5" />
-              </span>
-              <h2 className="mt-4 font-display text-xl font-bold">Our Mission</h2>
-              <p className="mt-2 text-brand-muted">{content.mission}</p>
-            </div>
-          )}
-          {content.vision && (
-            <div className="rounded-xl border border-brand-border bg-brand-surface p-6">
-              <span className="flex h-11 w-11 items-center justify-center rounded-full border border-brand-border text-brand-accent">
-                <EyeIcon className="h-5 w-5" />
-              </span>
-              <h2 className="mt-4 font-display text-xl font-bold">Our Vision</h2>
-              <p className="mt-2 text-brand-muted">{content.vision}</p>
-            </div>
-          )}
+        <RevealSection className="mt-12 overflow-hidden rounded-2xl border border-brand-border bg-brand-surface">
+          <div className="grid sm:grid-cols-2 sm:divide-x sm:divide-brand-border">
+            {content.mission && (
+              <div className="p-6 sm:p-8">
+                <span className="flex h-11 w-11 items-center justify-center rounded-full border border-brand-border text-brand-accent">
+                  <TargetIcon className="h-5 w-5" />
+                </span>
+                <h2 className="mt-4 font-display text-xl font-bold">Our Mission</h2>
+                <p className="mt-2 text-brand-muted">{content.mission}</p>
+              </div>
+            )}
+            {content.vision && (
+              <div className="border-t border-brand-border p-6 sm:border-t-0 sm:p-8">
+                <span className="flex h-11 w-11 items-center justify-center rounded-full border border-brand-border text-brand-accent">
+                  <EyeIcon className="h-5 w-5" />
+                </span>
+                <h2 className="mt-4 font-display text-xl font-bold">Our Vision</h2>
+                <p className="mt-2 text-brand-muted">{content.vision}</p>
+              </div>
+            )}
+          </div>
         </RevealSection>
       )}
 
