@@ -24,9 +24,12 @@
    * background texture at 0.1 opacity -- usable for a card's own edge
    * (framed by the darker void around it), but not for a divider that sits
    * directly over the grid lines (StatBar's column dividers, the footer's
-   * rules). This is for those specific cases, not a sitewide bump.
+   * rules). This is for those specific cases, not a sitewide bump. Tinted
+   * with the brand accent (matching --color-brand-border-hover's hue) at a
+   * higher opacity so it reads as an intentional accent line, not just a
+   * brighter version of the same grey.
    */
-  --color-brand-border-strong: rgba(255, 255, 255, 0.22);
+  --color-brand-border-strong: rgba(255, 122, 0, 0.4);
   --color-brand-accent: #ff7a00;
   --color-brand-accent-hover: #ff8a00;
   --color-brand-text: #ffffff;
