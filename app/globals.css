@@ -122,6 +122,21 @@ body {
   background-size: 48px 48px, 48px 48px, 100% 100%;
 }
 
+/*
+ * The footer sits on its own opaque surface (not the page's fixed .bg-grid
+ * layer) so its grid can be tuned independently: same 48px rhythm, line
+ * opacity reduced ~25% from the page's 0.06 -- present and recognizably
+ * the same system, just quieter, closing the page rather than competing
+ * with it.
+ */
+.footer-grid {
+  background-color: var(--color-brand-bg);
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+  background-size: 48px 48px, 48px 48px;
+}
+
 @keyframes float {
   0%,
   100% {
